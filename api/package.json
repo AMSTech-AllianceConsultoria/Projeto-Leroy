@@ -1,0 +1,17 @@
+{
+  "name": "taxone-agendador-api",
+  "version": "6.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "@sap/hana-client": "latest",
+    "dotenv": "latest",
+    "express": "latest",
+    "node-cron": "latest"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

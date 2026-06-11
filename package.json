@@ -1,0 +1,19 @@
+{
+  "name": "taxone-control-light",
+  "version": "1.0.0",
+  "description": "TaxOne Control cockpit com layout claro premium",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "dependencies": {
+    "@sap/hana-client": "latest",
+    "dotenv": "latest",
+    "express": "latest",
+    "puppeteer": "latest"
+  },
+  "devDependencies": {
+    "nodemon": "latest"
+  }
+}

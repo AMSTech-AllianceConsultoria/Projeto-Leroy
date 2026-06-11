@@ -1,0 +1,42 @@
+_schema-version: "3.2"
+ID: taxone-agendador
+version: 6.0.0
+
+modules:
+  - name: taxone-agendador-api
+    type: nodejs
+    path: api
+    parameters:
+      memory: 512M
+      disk-quota: 1024M
+    provides:
+      - name: taxone-agendador-api-destination
+        properties:
+          url: ${default-url}
+    requires:
+      - name: taxone-agendador-uaa
+
+  - name: taxone-agendador-approuter
+    type: nodejs
+    path: approuter
+    parameters:
+      memory: 256M
+      disk-quota: 512M
+    requires:
+      - name: taxone-agendador-uaa
+      - name: taxone-agendador-api-destination
+        group: destinations
+        properties:
+          name: taxone-agendador-api
+          url: ~{url}
+          forwardAuthToken: true
+
+resources:
+  - name: taxone-agendador-uaa
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: xsuaa
+      service-plan: application
+      config:
+        xsappname: taxone-agendador-${org}-${space}
+        tenant-mode: dedicated

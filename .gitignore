@@ -1,0 +1,7 @@
+node_modules/
+.env
+browser-profile*/
+data/browser-profile*/
+data/agendamentos.json
+data/historico-execucoes.json
+*.log

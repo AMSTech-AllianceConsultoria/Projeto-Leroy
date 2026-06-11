@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Alliance Consultoria - Schedulle Reports</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand">
+      <img class="brand-logo" src="images/ALLIANCE.png" alt="Alliance Consultoria" />
+      <div class="brand-text"><strong>Schedulle Reports</strong><span>Alliance Consultoria</span></div>
+    </div>
+
+    <div class="divider"></div>
+    <p class="label">Ambiente</p>
+    <div class="env-switch">
+      <button class="env-btn active" data-env="qas">QAS</button>
+      <button class="env-btn" data-env="prd">PRD</button>
+    </div>
+
+    <nav class="menu">
+      <button class="menu-item active" data-view="dashboard">⌂ <span>Dashboard</span></button>
+      <button class="menu-item" data-view="relatorios">▤ <span>Relatórios</span></button>
+      <button class="menu-item" data-view="agendamentos">▦ <span>Agendamentos</span></button>
+    </nav>
+
+    <div class="side-bottom">
+      <div class="status-pill"><i></i><div><b>Online</b><span>HANA / TaxOne API</span></div></div>
+      
+    </div>
+  </aside>
+
+  <main class="app">
+    <section class="hero card">
+      <div>
+        <small>SEJA BEM-VINDO(A)! 👋</small>
+        <h1 id="pageTitle">Dashboard</h1>
+        <span class="fresh">⟳ Dados atualizados agora há pouco</span>
+      </div>
+      <div class="period-box">
+        <label>Período</label>
+        <div class="period-row">
+          <select id="mes"></select>
+          <select id="ano"></select>
+          <button id="btnAtualizar" class="btn primary">⟳ Atualizar</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="kpis">
+      <div class="kpi card green"><div class="kpi-icon">🛡</div><div><span>Status</span><b id="kpiStatus">OK</b><small>Sistema saudável</small></div><em>100%</em><svg viewBox="0 0 120 40"><path d="M0 32 C18 30 20 10 35 28 S55 34 66 12 82 34 98 22 110 20 120 14"/></svg></div>
+      <div class="kpi card blue"><div class="kpi-icon">📁</div><div><span>Módulos</span><b id="kpiGrupos">6</b><small>Disponíveis</small></div><em>+2</em><svg viewBox="0 0 120 40"><path d="M0 34 C22 30 28 26 39 28 S50 10 62 20 70 38 84 28 101 18 120 15"/></svg></div>
+      <div class="kpi card orange"><div class="kpi-icon">📄</div><div><span>Execuções</span><b id="kpiRelatorios">0</b><small>No mês selecionado</small></div><em>—</em><svg viewBox="0 0 120 40"><path d="M0 34 C18 32 28 29 42 24 S56 9 70 18 82 29 96 19 108 24 120 16"/></svg></div>
+      <div class="kpi card purple"><div class="kpi-icon">▣</div><div><span>Agendamentos</span><b id="kpiAgenda">0</b><small>Ativos</small></div><em>—</em><svg viewBox="0 0 120 40"><path d="M0 32 C20 32 29 33 40 26 S58 10 74 19 90 29 120 23"/></svg></div>
+    </section>
+
+    <section id="view-relatorios" class="view">
+      <div class="panel card">
+        <div class="panel-head">
+          <div class="title-icon">📄</div><div><h2>Central de Relatórios</h2><p>Pesquise, filtre e consulte relatórios por grupo.</p></div>
+        </div>
+        <input id="busca" type="hidden" value="" />
+        <select id="grupoSelect" class="sr-only-hidden" aria-hidden="true" tabindex="-1"><option value="">Selecione o grupo</option></select>
+
+        <div class="schedule-box">
+          <div class="schedule-head">
+            <div>
+              <h3>Agendar Relatórios</h3>
+              <p>Selecione um ou mais relatórios abaixo e defina a recorrência da execução.</p>
+            </div>
+            <span id="selectedCount" class="selected-count">0 selecionados</span>
+          </div>
+
+          <div class="module-filter" id="moduleFilter">
+            <div class="module-filter-head">
+              <div>
+                <h4>Módulo / Solução</h4>
+                <p>Escolha o módulo que será considerado no agendamento.</p>
+              </div>
+              <input id="schedModulo" type="hidden" value="" />
+            </div>
+            <div class="module-cards" id="moduleCards"></div>
+
+            <div class="module-dynamic" id="moduleDynamic">
+              <div class="module-dynamic-head">
+                <div>
+                  <h4 id="dynamicTitle">Relatórios de Apoio</h4>
+                  <p id="dynamicHint">Selecione o grupo e marque um ou mais relatórios.</p>
+                </div>
+              </div>
+              <div id="dynamicContent" class="dynamic-content">
+                <div class="info-soft">Selecione um módulo para carregar as opções disponíveis.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="schedule-form">
+            <label>Nome do Agendamento
+              <input id="schedNome" type="text" placeholder="Ex.: Relatórios fiscais mensais" />
+            </label>
+            <label>Ambiente
+              <select id="schedEnv">
+                <option value="qas">QAS</option>
+                <option value="prd">PRD</option>
+              </select>
+            </label>
+            <label>Recorrência
+              <select id="schedRecorrencia">
+                <option value="diario">Diário</option>
+                <option value="semanal">Semanal</option>
+                <option value="mensal">Mensal</option>
+              </select>
+            </label>
+            <label>Horário
+              <input id="schedHorario" type="time" value="08:00" />
+            </label>
+            <label id="campoDiaSemana" class="schedule-extra conditional-weekly">Dia da Semana
+              <select id="schedDiaSemana">
+                <option value="1">Segunda-feira</option>
+                <option value="2">Terça-feira</option>
+                <option value="3">Quarta-feira</option>
+                <option value="4">Quinta-feira</option>
+                <option value="5">Sexta-feira</option>
+                <option value="6">Sábado</option>
+                <option value="0">Domingo</option>
+              </select>
+            </label>
+            <label id="campoDiaUtil" class="schedule-extra conditional-monthly">Dia útil do mês
+              <select id="schedDiaUtil">
+                <option value="1">1º dia útil</option>
+                <option value="2">2º dia útil</option>
+                <option value="3">3º dia útil</option>
+                <option value="4">4º dia útil</option>
+                <option value="5">5º dia útil</option>
+              </select>
+            </label>
+          </div>
+          <div class="schedule-actions">
+            <button id="btnSelecionarTodos" class="btn ghost" type="button">Selecionar todos</button>
+            <button id="btnLimparSelecao" class="btn ghost" type="button">Limpar Seleção</button>
+            <button id="btnSalvarAgendamento" class="btn primary" type="button">Salvar Agendamento</button>
+          </div>
+        </div>
+
+        <div class="content-grid content-grid-full">
+          <div class="table-card table-card-full">
+            <div class="table-head"><h3>Lista de Relatórios <span id="countBadge">0 registros</span></h3><label>Itens por página:<select><option>10</option><option>25</option></select></label></div>
+            <div class="table-wrap"><table><thead><tr><th class="select-col">Selecionar</th><th>Grupo ID</th><th>ID</th><th>Nome</th><th>Fonte</th><th>Mandt</th><th>Empresa</th><th>OrgStr</th><th>Tipo</th><th>Exportação</th><th>Ação</th></tr></thead><tbody id="tbody"></tbody></table></div>
+            <div id="empty" class="empty"><div class="empty-art">🔎</div><h3>Nenhum relatório encontrado</h3><p>Não há relatórios cadastrados para o período selecionado ou que correspondam aos filtros aplicados.</p></div>
+            <div class="pager"><button>‹‹</button><button>‹</button><b>1</b><button>›</button></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="view-dashboard" class="view active"><div class="panel card"><h2>Dashboard</h2><p>Visão consolidada do ambiente, conectividade e volume operacional.</p><div class="dash-grid"><div class="dash-card">Conectividade TaxOne<b>OK</b></div><div class="dash-card">Última atualização<b id="lastUpdate">Agora</b></div><div class="dash-card">Ambiente ativo<b id="ambienteAtual">QAS</b></div></div></div></section>
+    <section id="view-agendamentos" class="view"><div class="panel card"><h2>Agendamentos</h2><p>Gerencie execuções automáticas e histórico.</p><div id="agList" class="list"></div></div></section>
+    <section id="view-diagnostico" class="view"><div class="panel card"><h2>Diagnóstico</h2><p>Teste rapidamente as integrações do cockpit.</p><button id="btnHealth" class="btn primary">Testar conexão</button><pre id="diagOut"></pre></div></section>
+    <section id="view-configuracoes" class="view"><div class="panel card"><h2>Configurações</h2><p>Central visual para parâmetros do cockpit.</p><div class="settings-row"><span>Modo de execução</span><b id="execMode">Carregando...</b></div></div></section>
+
+    <footer>🛡 Desenvolvido por AMS Sustentação - Alliance Consultoria <span>Versão 1.0.0</span></footer>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>

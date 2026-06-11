@@ -1,0 +1,20 @@
+{
+  "welcomeFile": "/",
+  "authenticationMethod": "route",
+  "routes": [
+    {
+      "source": "^/api/(.*)$",
+      "target": "/api/$1",
+      "destination": "taxone-agendador-api",
+      "authenticationType": "xsuaa",
+      "csrfProtection": false
+    },
+    {
+      "source": "^/(.*)$",
+      "target": "/$1",
+      "destination": "taxone-agendador-api",
+      "authenticationType": "xsuaa",
+      "csrfProtection": false
+    }
+  ]
+}
